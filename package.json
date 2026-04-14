@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "start": "node ./scripts/start-system.mjs",
     "deps:install": "bash ./scripts/install-deps.sh",
     "check:provenance": "node ./scripts/check-provenance.mjs",
     "check:progress:gate": "node ./scripts/check-progress-gate.mjs",

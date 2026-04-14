@@ -1,0 +1,4 @@
+interface:
+  display_name: "System Debug (Human)"
+  short_description: "Debug hệ thống theo quy trình người thật."
+  default_prompt: "Điều tra sự cố hệ thống theo quy trình triage, tái hiện, khoanh vùng, sửa và xác minh."

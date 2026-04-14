@@ -170,6 +170,15 @@ Nếu vẫn lỗi `403`, đó là do policy mạng của sandbox/CI (cần mở 
   - `docs/staging-integration-report.md`
   - `CHANGELOG.md`
 
+## Debug Skill
+
+- Skill debug hệ thống theo quy trình “như người thật” nằm tại `skills/human-system-debug/`.
+- Dùng script snapshot khi điều tra sự cố:
+  - `bash skills/human-system-debug/scripts/collect_debug_snapshot.sh`
+- Mẫu workflow và checklist nằm trong:
+  - `skills/human-system-debug/SKILL.md`
+  - `skills/human-system-debug/references/`
+
 ## FAQ ngắn
 
 ### Có nên “luôn cập nhật model mới nhất miễn phí” là đủ không?

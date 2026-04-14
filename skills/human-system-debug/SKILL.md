@@ -1,12 +1,13 @@
 ---
 name: human-system-debug
-description: "Debug software and system incidents with a human-like investigative workflow: triage symptoms, reproduce deterministically, isolate fault boundaries, rank hypotheses by evidence, implement the smallest safe fix, and verify with regression checks. Use when users ask to debug errors, flaky tests, CI failures, runtime crashes, API regressions, performance slowdowns, production incidents, or any unclear root cause situation (including requests phrased as 'debug like a real engineer' or 'dieu tra su co he thong')."
+description: "Debug software and system incidents with a human-like investigative workflow: triage symptoms, reproduce deterministically, isolate fault boundaries, rank hypotheses by evidence, implement the smallest safe fix, verify with regression checks, and run continuous hardening loops by progress. Use when users ask to debug errors, flaky tests, CI failures, runtime crashes, API regressions, performance slowdowns, production incidents, or any unclear root cause situation (including requests phrased as 'debug like a real engineer' or 'dieu tra su co he thong')."
 ---
 
 # Human System Debug
 
 ## Overview
 Use a strict evidence-first loop. Move from symptom -> reproduction -> isolation -> hypothesis -> fix -> verification. Prefer small, reversible changes and show concrete proof at each step.
+For long-running stabilization requests, switch to continuous progress mode (debug loop by cycles) so each pass either removes a real failure or increases confidence.
 
 ## Workflow
 
@@ -63,6 +64,26 @@ Use a strict evidence-first loop. Move from symptom -> reproduction -> isolation
   - follow-up hardening tasks
 - Keep the summary short and actionable.
 
+## Continuous Progress Mode
+Use this mode when the ask is "run continuously, fix, and keep improving."
+
+### Cycle runner
+- Run `bash scripts/debug_iteration_loop.sh --loops 3`.
+- The runner executes `npm start`, `npm run app:smoke`, `npm run verify`, `npm run check:readiness:100`, and `npm run check:progress:gate` per loop.
+- Each command writes per-loop logs and a markdown report under `debug-snapshots/continuous/`.
+
+### Progress policy
+- If a loop fails:
+  - isolate the first failing command
+  - implement the smallest safe fix
+  - rerun that command
+  - rerun the full loop
+- If all loops pass:
+  - increase stress gradually (for example from `--loops 3` to `--loops 5`)
+  - change only one hardening variable per cycle
+  - keep a short note of what changed and why
+- Never batch unrelated refactors into an incident fix cycle.
+
 ## Decision Rules
 - Stop and ask for approval before any destructive operation.
 - Prefer deterministic scripts over repeated ad-hoc shell fragments.
@@ -71,6 +92,7 @@ Use a strict evidence-first loop. Move from symptom -> reproduction -> isolation
 
 ## Common Failure Modes
 Read `references/failure-patterns.md` when the issue matches known signatures (timeout, auth drift, stale cache, race condition, retry storm, config skew).
+Read `references/continuous-improvement.md` when running repeated hardening cycles and deciding how to raise test pressure safely.
 
 ## Communication Template
 Use this compact format in updates:
@@ -84,7 +106,9 @@ Use this compact format in updates:
 ## Resources
 ### scripts/
 - `scripts/collect_debug_snapshot.sh`: Collect environment and repo debug baseline.
+- `scripts/debug_iteration_loop.sh`: Run repeated debug-verify cycles with structured logs and a report.
 
 ### references/
 - `references/failure-patterns.md`: Signature-based troubleshooting heuristics.
 - `references/investigation-checklist.md`: Fast checklist for incident-style debugging.
+- `references/continuous-improvement.md`: Rules to raise hardening pressure by progress without creating noisy loops.

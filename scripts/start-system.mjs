@@ -25,6 +25,7 @@ console.log(`Runtime mode: ${mode}`);
 
 run('backend-readiness', 'npm run check:backend:readiness');
 run('staging-smoke', 'npm run check:staging:smoke');
+run('app-smoke', 'npm run app:smoke');
 run('kpi-alerts', 'npm run check:kpi-alerts');
 
 console.log('System start completed.');

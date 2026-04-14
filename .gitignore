@@ -2,3 +2,4 @@ node_modules/
 .DS_Store
 npm-debug.log*
 .ci/last-progress-snapshot.json
+debug-snapshots/

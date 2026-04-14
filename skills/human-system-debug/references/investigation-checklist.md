@@ -26,3 +26,9 @@
 2. What changed.
 3. Proof of fix.
 4. Residual risk and next hardening.
+
+## Continuous cycle
+1. Run `bash scripts/debug_iteration_loop.sh --loops 3`.
+2. If all green, raise one pressure variable for next cycle.
+3. If any red, fix only the first failing command path.
+4. Keep loop reports so progress can be audited by timestamp.

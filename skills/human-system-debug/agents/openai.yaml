@@ -1,4 +1,4 @@
 interface:
   display_name: "System Debug (Human)"
-  short_description: "Debug hệ thống theo quy trình người thật."
-  default_prompt: "Điều tra sự cố hệ thống theo quy trình triage, tái hiện, khoanh vùng, sửa và xác minh."
+  short_description: "Debug hệ thống kiểu người thật + vòng cải tiến liên tục."
+  default_prompt: "Điều tra sự cố theo triage, tái hiện, khoanh vùng, fix, verify và lặp vòng debug theo tiến triển."

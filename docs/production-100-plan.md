@@ -23,52 +23,52 @@ Chỉ chốt 100% khi đồng thời đạt:
 ## Lane A — UI & UX core flow (10 ngày)
 
 ### A1. Search
-- [ ] A1.1 Hook SearchScreen vào usecase thật, bỏ mock hardcode.
-- [ ] A1.2 Thêm loading skeleton + empty state + retry CTA.
-- [ ] A1.3 Thêm analytics event `search_submitted`.
-- [ ] A1.4 Test UI logic cho filter cơ bản.
+- [x] A1.1 Hook SearchScreen vào usecase thật, bỏ mock hardcode.
+- [x] A1.2 Thêm loading skeleton + empty state + retry CTA.
+- [x] A1.3 Thêm analytics event `search_submitted`.
+- [x] A1.4 Test UI logic cho filter cơ bản.
 
 ### A2. Property List
-- [ ] A2.1 Nối pagination từ store/usecase vào UI list.
-- [ ] A2.2 Xử lý pull-to-refresh và lỗi mạng tạm thời.
-- [ ] A2.3 Thêm analytics event `list_impression`.
-- [ ] A2.4 Viết test cho sort/filter/pagination integration.
+- [x] A2.1 Nối pagination từ store/usecase vào UI list.
+- [x] A2.2 Xử lý pull-to-refresh và lỗi mạng tạm thời.
+- [x] A2.3 Thêm analytics event `list_impression`.
+- [x] A2.4 Viết test cho sort/filter/pagination integration.
 
 ### A3. Property Detail
-- [ ] A3.1 Render đầy đủ trường dữ liệu listing quan trọng.
-- [ ] A3.2 Save/unsave realtime + trạng thái pending.
-- [ ] A3.3 Contact CTA theo 2 mode (call/form).
-- [ ] A3.4 Test hành vi save/contact ở case thành công/lỗi.
+- [x] A3.1 Render đầy đủ trường dữ liệu listing quan trọng.
+- [x] A3.2 Save/unsave realtime + trạng thái pending.
+- [x] A3.3 Contact CTA theo 2 mode (call/form).
+- [x] A3.4 Test hành vi save/contact ở case thành công/lỗi.
 
 ### A4. Auth + bootstrap
-- [ ] A4.1 Hoàn thiện guard route khi token hết hạn.
-- [ ] A4.2 Chuẩn hóa thông báo login thất bại.
-- [ ] A4.3 Test Splash -> Onboarding -> Login -> Home.
+- [x] A4.1 Hoàn thiện guard route khi token hết hạn.
+- [x] A4.2 Chuẩn hóa thông báo login thất bại.
+- [x] A4.3 Test Splash -> Onboarding -> Login -> Home.
 
 ## Lane B — Backend readiness & reliability (8 ngày)
 
-- [ ] B1. Chuẩn hóa contract API property/saved/contact (OpenAPI hoặc schema tương đương).
-- [ ] B2. Thêm request-id + logging context ở HTTP client.
-- [ ] B3. Áp dụng retry policy theo endpoint criticality.
-- [ ] B4. Health endpoint + readiness check cho deploy gate.
-- [ ] B5. Idempotency cho action save/contact để tránh double-submit.
+- [x] B1. Chuẩn hóa contract API property/saved/contact (OpenAPI hoặc schema tương đương).
+- [x] B2. Thêm request-id + logging context ở HTTP client.
+- [x] B3. Áp dụng retry policy theo endpoint criticality.
+- [x] B4. Health endpoint + readiness check cho deploy gate.
+- [x] B5. Idempotency cho action save/contact để tránh double-submit.
 - [ ] B6. Test integration với backend staging.
 
 ## Lane C — Security, compliance, legal (6 ngày)
 
-- [ ] C1. Nâng cấp token storage (không chỉ obfuscation, cần encryption thực tế).
-- [ ] C2. Thêm rate-limit cho contact endpoint.
-- [ ] C3. Rà soát data provenance và giấy phép dữ liệu.
-- [ ] C4. Hoàn tất Privacy Policy + Terms of Service bản phát hành.
-- [ ] C5. Checklist bảo mật OWASP ASVS mức MVP.
+- [x] C1. Nâng cấp token storage (không chỉ obfuscation, cần encryption thực tế).
+- [x] C2. Thêm rate-limit cho contact endpoint.
+- [x] C3. Rà soát data provenance và giấy phép dữ liệu.
+- [x] C4. Hoàn tất Privacy Policy + Terms of Service bản phát hành.
+- [x] C5. Checklist bảo mật OWASP ASVS mức MVP.
 
 ## Lane D — Growth analytics & operations (6 ngày)
 
-- [ ] D1. Tích hợp provider analytics thật (Firebase/Segment).
-- [ ] D2. Dashboard funnel Search -> Detail -> Save -> Contact.
-- [ ] D3. Thiết lập crash/error monitoring (Sentry hoặc tương đương).
-- [ ] D4. Alert theo ngưỡng KPI và error budget.
-- [ ] D5. Runbook incident + phân ca on-call.
+- [x] D1. Tích hợp provider analytics thật (Firebase/Segment).
+- [x] D2. Dashboard funnel Search -> Detail -> Save -> Contact.
+- [x] D3. Thiết lập crash/error monitoring (Sentry hoặc tương đương).
+- [x] D4. Alert theo ngưỡng KPI và error budget.
+- [x] D5. Runbook incident + phân ca on-call.
 
 ## 4) Lịch thực thi đề xuất (từ 12/04/2026)
 

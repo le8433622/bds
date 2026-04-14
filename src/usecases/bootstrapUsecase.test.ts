@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { setOnboardingCompleted, resetOnboardingStorageForTesting } from '../services/storage/onboardingStorage';
-import { resetTokenStorageForTesting, saveToken } from '../services/storage/tokenStorage';
+import { resetTokenStorageForTesting, saveSessionToken, saveToken } from '../services/storage/tokenStorage';
 import { resolveInitialRoute } from './bootstrapUsecase';
 
 afterEach(() => {
@@ -21,6 +21,15 @@ describe('bootstrapUsecase', () => {
   });
 
   it('routes returning user without token to Login', async () => {
+    await setOnboardingCompleted(true);
+    expect(await resolveInitialRoute()).toBe('Login');
+  });
+
+  it('routes to Login if token is expired', async () => {
+    await saveSessionToken({
+      token: 'expired-token',
+      expiresAt: '2000-01-01T00:00:00.000Z',
+    });
     await setOnboardingCompleted(true);
     expect(await resolveInitialRoute()).toBe('Login');
   });

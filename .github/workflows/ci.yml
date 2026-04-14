@@ -24,6 +24,9 @@ jobs:
       - name: Verify (typecheck + tests)
         run: npm run verify
 
+      - name: Backend readiness check (mock-safe)
+        run: npm run check:backend:readiness
+
       - name: Generate progress report (json)
         run: node ./scripts/report-progress.mjs --json > progress-report.json
 

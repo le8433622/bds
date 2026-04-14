@@ -34,6 +34,7 @@ describe('httpClient', () => {
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.error.code).toBe('HTTP_ERROR');
+      expect(result.error.message).toBe('HTTP 500');
     }
   });
 
@@ -51,6 +52,28 @@ describe('httpClient', () => {
     if (!result.ok) {
       expect(result.error.code).toBe('NETWORK_ERROR');
     }
+  });
+
+  it('injects request-id and idempotency headers', async () => {
+    const requests: RequestInit[] = [];
+    const client = createHttpClient({
+      baseUrl: 'https://api.example.com',
+      timeoutMs: 1000,
+      requestIdFactory: () => 'req-fixed-1',
+      fetchFn: async (_url, init) => {
+        requests.push(init ?? {});
+        return createJsonResponse({ success: true });
+      },
+    });
+
+    const result = await client.post('/saved-properties', { propertyId: 'p-001' }, {
+      idempotencyKey: 'saved:add:p-001',
+    });
+
+    expect(result.ok).toBe(true);
+    const headers = requests[0].headers as Record<string, string>;
+    expect(headers['X-Request-Id']).toBe('req-fixed-1');
+    expect(headers['Idempotency-Key']).toBe('saved:add:p-001');
   });
 
   it('retries when fetch fails with network error and succeeds later', async () => {
@@ -79,6 +102,31 @@ describe('httpClient', () => {
     if (result.ok) {
       expect(result.data.value).toBe(777);
     }
+  });
+
+  it('applies extra retry for high-criticality endpoints', async () => {
+    let attempts = 0;
+    const delays: number[] = [];
+    const client = createHttpClient({
+      baseUrl: 'https://api.example.com',
+      timeoutMs: 1000,
+      retryCount: 0,
+      sleepFn: async (ms) => {
+        delays.push(ms);
+      },
+      fetchFn: async () => {
+        attempts += 1;
+        if (attempts === 1) {
+          throw new Error('temporary network issue');
+        }
+        return createJsonResponse({ ok: true });
+      },
+    });
+
+    const result = await client.get('/critical', { criticality: 'high' });
+    expect(result.ok).toBe(true);
+    expect(attempts).toBe(2);
+    expect(delays).toEqual([100]);
   });
 
   it('stops after configured retries', async () => {

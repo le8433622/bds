@@ -1,6 +1,6 @@
 import type { BookVisitPayload, ContactRequestPayload } from '../types/contact';
 import type { PaginationInput } from '../types/pagination';
-import type { SearchFilters } from '../screens/search/SearchScreen';
+import type { SearchFilters } from '../types/search';
 import { trackEvent } from '../services/analytics/analyticsService';
 import { resolveInitialRoute } from './bootstrapUsecase';
 import { contactAgent, bookVisit } from './contactUsecase';

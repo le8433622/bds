@@ -1,16 +1,14 @@
 # Báo cáo tình hình hiện tại
 
-**Thời điểm tạo (UTC):** 2026-04-12T19:47:16.953Z
+**Thời điểm tạo (UTC):** 2026-04-14T12:55:31.742Z
 
 ## Tổng quan
-- Tiến độ tổng: **41.03%**
-- Đã hoàn thành: **32/78 tasks**
-- Còn lại: **46 tasks (58.97%)**
+- Tiến độ tổng: **82.22%**
+- Đã hoàn thành: **74/90 tasks**
+- Còn lại: **16 tasks (17.78%)**
 
 ## 3 việc ưu tiên kế tiếp
-1. [A1. Search] A1.1 Hook SearchScreen vào usecase thật, bỏ mock hardcode.
-2. [A1. Search] A1.2 Thêm loading skeleton + empty state + retry CTA.
-3. [A1. Search] A1.3 Thêm analytics event `search_submitted`.
+1. [Lane B — Backend readiness & reliability (8 ngày)] B6. Test integration với backend staging.
 
 ## Khi nào deploy được?
 - Mốc kế hoạch hiện tại: **11/05/2026** (go-live MVP nếu đạt go/no-go).

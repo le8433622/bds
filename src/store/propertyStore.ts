@@ -1,5 +1,5 @@
 import type { Property } from '../types/models';
-import type { SearchFilters } from '../screens/search/SearchScreen';
+import type { SearchFilters } from '../types/search';
 
 export type PropertySort = 'newest' | 'priceAsc' | 'priceDesc';
 

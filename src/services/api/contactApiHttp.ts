@@ -10,11 +10,25 @@ export type ContactApiGateway = {
 export function createContactApiGateway(client: HttpClient): ContactApiGateway {
   return {
     contact(payload) {
-      return client.post<ContactRequestPayload, { id: string }>('/contact-request', payload);
+      return client.post<ContactRequestPayload, { id: string }>(
+        '/contact-request',
+        payload,
+        {
+          criticality: 'high',
+          idempotencyKey: `contact:${payload.propertyId}:${payload.phone}:${payload.preferredMethod}`,
+        },
+      );
     },
 
     bookVisit(payload) {
-      return client.post<BookVisitPayload, { id: string }>('/book-visit', payload);
+      return client.post<BookVisitPayload, { id: string }>(
+        '/book-visit',
+        payload,
+        {
+          criticality: 'high',
+          idempotencyKey: `visit:${payload.propertyId}:${payload.phone}:${payload.visitDate}`,
+        },
+      );
     },
   };
 }

@@ -30,4 +30,15 @@ describe('analyticsService', () => {
     await trackEvent('search_submitted', { query: 'apartment' });
     expect(trackedNames).toEqual(['search_submitted']);
   });
+
+  it('does not throw when provider fails', async () => {
+    setAnalyticsProvider({
+      track() {
+        throw new Error('provider unavailable');
+      },
+    });
+
+    await expect(trackEvent('search_submitted')).resolves.toBeUndefined();
+    expect(getTrackedEvents()).toHaveLength(1);
+  });
 });

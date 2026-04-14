@@ -4,10 +4,13 @@ import type { ApiResult } from '../../types/api';
 
 describe('propertyApiGateway', () => {
   it('builds list query and delegates to client.get', async () => {
-    const called: string[] = [];
+    const called: Array<{ path: string; options?: { criticality?: string } }> = [];
     const gateway = createPropertyApiGateway({
-      get: async <T,>(path: string): Promise<ApiResult<T>> => {
-        called.push(path);
+      get: async <T,>(
+        path: string,
+        options?: { criticality?: string },
+      ): Promise<ApiResult<T>> => {
+        called.push({ path, options });
         return { ok: true, data: [] as unknown as T };
       },
       post: async <TBody extends object, TResponse>(): Promise<ApiResult<TResponse>> => {
@@ -18,17 +21,21 @@ describe('propertyApiGateway', () => {
     const result = await gateway.list({ intent: 'rent', bedrooms: 2 }, { page: 1, pageSize: 20 });
 
     expect(result.ok).toBe(true);
-    expect(called[0]).toContain('/properties?');
-    expect(called[0]).toContain('intent=rent');
-    expect(called[0]).toContain('bedrooms=2');
-    expect(called[0]).toContain('pageSize=20');
+    expect(called[0].path).toContain('/properties?');
+    expect(called[0].path).toContain('intent=rent');
+    expect(called[0].path).toContain('bedrooms=2');
+    expect(called[0].path).toContain('pageSize=20');
+    expect(called[0].options?.criticality).toBe('normal');
   });
 
   it('delegates property detail endpoint', async () => {
-    const called: string[] = [];
+    const called: Array<{ path: string; options?: { criticality?: string } }> = [];
     const gateway = createPropertyApiGateway({
-      get: async <T,>(path: string): Promise<ApiResult<T>> => {
-        called.push(path);
+      get: async <T,>(
+        path: string,
+        options?: { criticality?: string },
+      ): Promise<ApiResult<T>> => {
+        called.push({ path, options });
         return {
           ok: true,
           data: {
@@ -56,6 +63,7 @@ describe('propertyApiGateway', () => {
     const result = await gateway.detail('p-001');
 
     expect(result.ok).toBe(true);
-    expect(called[0]).toBe('/properties/p-001');
+    expect(called[0].path).toBe('/properties/p-001');
+    expect(called[0].options?.criticality).toBe('high');
   });
 });

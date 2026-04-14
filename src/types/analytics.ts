@@ -1,6 +1,8 @@
 export type AnalyticsEventName =
   | 'app_open'
   | 'search_submitted'
+  | 'list_impression'
+  | 'detail_viewed'
   | 'property_saved'
   | 'contact_requested'
   | 'visit_booked'

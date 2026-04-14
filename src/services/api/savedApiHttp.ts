@@ -11,15 +11,31 @@ export type SavedApiGateway = {
 export function createSavedApiGateway(client: HttpClient): SavedApiGateway {
   return {
     list() {
-      return client.get<Property[]>('/saved-properties');
+      return client.get<Property[]>('/saved-properties', {
+        criticality: 'normal',
+      });
     },
 
     add(propertyId: string) {
-      return client.post<{ propertyId: string }, { success: boolean }>('/saved-properties', { propertyId });
+      return client.post<{ propertyId: string }, { success: boolean }>(
+        '/saved-properties',
+        { propertyId },
+        {
+          criticality: 'high',
+          idempotencyKey: `saved:add:${propertyId}`,
+        },
+      );
     },
 
     remove(propertyId: string) {
-      return client.post<{ propertyId: string }, { success: boolean }>('/saved-properties/remove', { propertyId });
+      return client.post<{ propertyId: string }, { success: boolean }>(
+        '/saved-properties/remove',
+        { propertyId },
+        {
+          criticality: 'high',
+          idempotencyKey: `saved:remove:${propertyId}`,
+        },
+      );
     },
   };
 }

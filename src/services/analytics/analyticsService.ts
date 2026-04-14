@@ -8,8 +8,8 @@ export type AnalyticsProvider = {
 };
 
 const inMemoryProvider: AnalyticsProvider = {
-  track(event: AnalyticsEvent): void {
-    events.push(event);
+  track(): void {
+    // No-op provider. Events are persisted in the in-memory array below.
   },
 };
 
@@ -33,7 +33,13 @@ export async function trackEvent(
     timestamp: new Date().toISOString(),
   };
 
-  provider.track(event);
+  events.push(event);
+
+  try {
+    await provider.track(event);
+  } catch {
+    // Ignore provider failures to avoid breaking user-facing flows.
+  }
 }
 
 export function getTrackedEvents(): AnalyticsEvent[] {

@@ -1,7 +1,7 @@
 import type { Property } from '../../types/models';
-import type { SearchFilters } from '../../screens/search/SearchScreen';
+import type { SearchFilters } from '../../types/search';
 import { getProperties } from './propertyApi';
-import { getSavedProperties, toggleSaved } from '../../store/savedStore';
+import { addSaved, getSavedProperties, removeSaved, toggleSaved } from '../../store/savedStore';
 
 let savedIds: string[] = [];
 
@@ -11,6 +11,16 @@ export async function getSavedIds(): Promise<string[]> {
 
 export async function toggleSavedProperty(propertyId: string): Promise<string[]> {
   savedIds = toggleSaved(savedIds, propertyId);
+  return [...savedIds];
+}
+
+export async function addSavedProperty(propertyId: string): Promise<string[]> {
+  savedIds = addSaved(savedIds, propertyId);
+  return [...savedIds];
+}
+
+export async function removeSavedProperty(propertyId: string): Promise<string[]> {
+  savedIds = removeSaved(savedIds, propertyId);
   return [...savedIds];
 }
 

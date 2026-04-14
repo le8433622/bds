@@ -13,7 +13,9 @@ export type HealthApiGateway = {
 export function createHealthApiGateway(client: HttpClient): HealthApiGateway {
   return {
     check() {
-      return client.get<HealthResponse>('/health');
+      return client.get<HealthResponse>('/health', {
+        criticality: 'normal',
+      });
     },
   };
 }

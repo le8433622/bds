@@ -1,6 +1,6 @@
 # HomeFinder MVP Progress Tracker
 
-> Estimated overall progress toward production launch: **65% (as of April 12, 2026)**
+> Estimated overall progress toward production launch: **~75% (as of April 14, 2026)**
 
 ## Completed
 - [x] Product brief + MVP scope docs
@@ -35,14 +35,26 @@
 - [x] Release checklist and README local flow now prioritize unified `npm run verify`
 - [x] Added data-provenance governance doc to prevent unlicensed source-copy into monetized flows
 - [x] Added executable provenance gate (`check:provenance`) integrated into `npm run verify`
+- [x] Introduced UI container layer wiring runtime usecases to Search/List/Detail screen controllers
+- [x] Search controller now supports loading/empty/error/retry state flow on real usecase calls
+- [x] Property list controller now supports pagination + pull-to-refresh + transient-error retry
+- [x] Added analytics `list_impression` instrumentation in list/search controller flows
+- [x] Property detail controller now supports save/unsave pending and contact CTA call/form modes
+- [x] Added success/failure tests for property detail save/contact interactions
+- [x] Added OpenAPI contract draft for property/saved/contact/health endpoints (`docs/openapi.yaml`)
+- [x] Added backend readiness health-check command (`npm run check:backend:readiness`)
+- [x] HTTP client now injects `X-Request-Id`, supports per-endpoint retry criticality, and structured request logging hooks
+- [x] Save/contact/book-visit HTTP gateway writes now include idempotency keys
+- [x] Token storage upgraded from plain obfuscation to AES-GCM encryption (with backward-compatible `v1` read support)
+- [x] Added pluggable HTTP analytics provider and env-based runtime analytics configuration
 
 ## Remaining to reach 100%
 - [ ] Wire runtime mode into real React Native screens/navigation container UI
-- [ ] Replace current in-memory flows in UI with backend usecase facade
+- [ ] Replace current in-memory flows in full UI rendering layer with backend facade in real React Native views
 - [ ] Implement full MVP UI for all prioritized screens
-- [ ] Error/loading/empty states + retry flows in UI (data-layer retry is now available)
+- [ ] Complete visual UI rendering for loading/error/empty/retry states in actual RN components
 - [ ] Analytics provider integration (Firebase/Segment)
-- [ ] Security hardening (token encryption, rate limits)
+- [ ] Security hardening remaining scope (rate limits + secret management hardening)
 - [ ] UAT + release candidate builds
 
 ## Điều kiện xác nhận “thành công”

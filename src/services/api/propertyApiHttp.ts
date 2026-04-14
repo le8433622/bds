@@ -1,4 +1,4 @@
-import type { SearchFilters } from '../../screens/search/SearchScreen';
+import type { SearchFilters } from '../../types/search';
 import type { Property } from '../../types/models';
 import type { PaginationInput } from '../../types/pagination';
 import type { ApiResult } from '../../types/api';
@@ -27,11 +27,15 @@ export function createPropertyApiGateway(client: HttpClient): PropertyApiGateway
   return {
     list(filters = {}, pagination = {}) {
       const query = toListQuery(filters, pagination);
-      return client.get<Property[]>(`/properties${query}`);
+      return client.get<Property[]>(`/properties${query}`, {
+        criticality: 'normal',
+      });
     },
 
     detail(propertyId: string) {
-      return client.get<Property>(`/properties/${propertyId}`);
+      return client.get<Property>(`/properties/${propertyId}`, {
+        criticality: 'high',
+      });
     },
   };
 }

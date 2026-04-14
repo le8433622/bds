@@ -1,9 +1,10 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { resetContactStateForTesting } from '../services/api/contactApi';
-import { bookVisit, contactAgent } from './contactUsecase';
+import { bookVisit, contactAgent, resetContactUsecaseInFlightForTesting } from './contactUsecase';
 
 afterEach(() => {
   resetContactStateForTesting();
+  resetContactUsecaseInFlightForTesting();
 });
 
 describe('contactUsecase', () => {
@@ -27,5 +28,32 @@ describe('contactUsecase', () => {
     });
 
     expect(created.id.startsWith('visit-')).toBe(true);
+  });
+
+  it('deduplicates concurrent contact requests with same payload', async () => {
+    const payload = {
+      propertyId: 'p-001',
+      fullName: 'Nguyen Van A',
+      phone: '0909123456',
+      preferredMethod: 'call' as const,
+    };
+
+    const [first, second] = await Promise.all([contactAgent(payload), contactAgent(payload)]);
+    expect(first.id).toBe(second.id);
+  });
+
+  it('blocks repeated contact requests when rate limit is exceeded', async () => {
+    const payload = {
+      propertyId: 'p-001',
+      fullName: 'Nguyen Van A',
+      phone: '0909000000',
+      preferredMethod: 'call' as const,
+    };
+
+    await contactAgent(payload);
+    await contactAgent(payload);
+    await contactAgent(payload);
+
+    await expect(contactAgent(payload)).rejects.toThrow('RATE_LIMIT_EXCEEDED');
   });
 });

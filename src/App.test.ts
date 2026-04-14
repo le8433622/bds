@@ -6,6 +6,7 @@ describe('App entrypoint', () => {
     const appShell = App();
     expect(appShell.runtimeMode).toBe(APP_RUNTIME.mode);
     expect(appShell.flow).toBe(APP_FLOW);
+    expect(appShell.ui).toBeDefined();
   });
 
   it('exposes APP_FLOW contract', () => {
@@ -23,9 +24,13 @@ describe('App entrypoint', () => {
       mode: 'backend',
       usecases: {
         search: async () => ({ ok: true }),
+        propertyDetail: async () => ({ ok: true }),
+        savedList: async () => ({ ok: true }),
         save: async () => ({ ok: true }),
+        unsave: async () => ({ ok: true }),
         contact: async () => ({ ok: true }),
         bookVisit: async () => ({ ok: true }),
+        healthCheck: async () => ({ ok: true }),
       },
     });
 

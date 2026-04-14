@@ -1,4 +1,4 @@
-import type { SearchFilters } from '../screens/search/SearchScreen';
+import type { SearchFilters } from '../types/search';
 import type { PaginatedResult, PaginationInput } from '../types/pagination';
 import type { Property } from '../types/models';
 import { getPropertiesPaginated } from '../services/api/propertyApi';

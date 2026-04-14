@@ -1,6 +1,6 @@
 import type { ContactRequestPayload, BookVisitPayload } from '../types/contact';
 import type { PaginationInput } from '../types/pagination';
-import type { SearchFilters } from '../screens/search/SearchScreen';
+import type { SearchFilters } from '../types/search';
 import type { ServiceFactory } from '../services/serviceFactory';
 
 export function createBackendUsecases(factory: ServiceFactory) {

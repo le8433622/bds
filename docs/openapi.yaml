@@ -1,0 +1,297 @@
+openapi: 3.0.3
+info:
+  title: HomeFinder MVP API
+  version: 0.1.0
+  description: API contract for core MVP flows (search, detail, save, contact, health).
+servers:
+  - url: https://api.homefinder.example.com
+paths:
+  /health:
+    get:
+      summary: Health check for deployment readiness
+      responses:
+        '200':
+          description: Service healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, timestamp]
+                properties:
+                  status:
+                    type: string
+                    enum: [ok]
+                  timestamp:
+                    type: string
+                    format: date-time
+  /properties:
+    get:
+      summary: List properties with filters and pagination
+      parameters:
+        - in: query
+          name: intent
+          schema:
+            type: string
+            enum: [buy, rent]
+        - in: query
+          name: location
+          schema:
+            type: string
+        - in: query
+          name: minPrice
+          schema:
+            type: integer
+        - in: query
+          name: maxPrice
+          schema:
+            type: integer
+        - in: query
+          name: propertyType
+          schema:
+            type: string
+            enum: [apartment, house, land, rental]
+        - in: query
+          name: bedrooms
+          schema:
+            type: integer
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Property list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Property'
+  /properties/{propertyId}:
+    get:
+      summary: Get property detail
+      parameters:
+        - in: path
+          name: propertyId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Property detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+  /saved-properties:
+    get:
+      summary: Get saved properties
+      responses:
+        '200':
+          description: Saved list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Property'
+    post:
+      summary: Save property
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [propertyId]
+              properties:
+                propertyId:
+                  type: string
+      responses:
+        '200':
+          description: Save success
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [success]
+                properties:
+                  success:
+                    type: boolean
+  /saved-properties/remove:
+    post:
+      summary: Remove saved property
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [propertyId]
+              properties:
+                propertyId:
+                  type: string
+      responses:
+        '200':
+          description: Remove success
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [success]
+                properties:
+                  success:
+                    type: boolean
+  /contact-request:
+    post:
+      summary: Create contact request
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactRequestPayload'
+      responses:
+        '200':
+          description: Contact request created
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id]
+                properties:
+                  id:
+                    type: string
+  /book-visit:
+    post:
+      summary: Create book-visit request
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookVisitPayload'
+      responses:
+        '200':
+          description: Visit request created
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id]
+                properties:
+                  id:
+                    type: string
+components:
+  schemas:
+    Property:
+      type: object
+      required:
+        - id
+        - title
+        - price
+        - location
+        - city
+        - area
+        - bedrooms
+        - bathrooms
+        - propertyType
+        - images
+        - description
+        - amenities
+        - createdAt
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        price:
+          type: integer
+        location:
+          type: string
+        city:
+          type: string
+        district:
+          type: string
+        area:
+          type: number
+        bedrooms:
+          type: integer
+        bathrooms:
+          type: integer
+        propertyType:
+          type: string
+          enum: [apartment, house, land, rental]
+        images:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        amenities:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+    ContactRequestPayload:
+      type: object
+      required: [propertyId, fullName, phone, preferredMethod]
+      properties:
+        propertyId:
+          type: string
+        fullName:
+          type: string
+        phone:
+          type: string
+        message:
+          type: string
+        preferredMethod:
+          type: string
+          enum: [call, chat, form]
+    BookVisitPayload:
+      type: object
+      required: [propertyId, fullName, phone, visitDate]
+      properties:
+        propertyId:
+          type: string
+        fullName:
+          type: string
+        phone:
+          type: string
+        visitDate:
+          type: string
+          format: date-time
+        note:
+          type: string

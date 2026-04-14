@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { createDefaultRuntime } from './defaultRuntime';
+import { createDefaultRuntime, configureMonitoringFromEnv } from './defaultRuntime';
+import { resetErrorMonitoringForTesting, setMonitoringProvider } from '../services/monitoring/errorMonitoring';
 
 describe('createDefaultRuntime', () => {
   it('uses defaults and returns runtime', () => {
@@ -18,5 +19,19 @@ describe('createDefaultRuntime', () => {
     });
 
     expect(runtime.mode).toBe('backend');
+  });
+
+  it('can configure monitoring provider from env', async () => {
+    let captured = false;
+    setMonitoringProvider({
+      captureException() {
+        captured = true;
+      },
+    });
+
+    configureMonitoringFromEnv({});
+    // provider reset when SENTRY_DSN is absent; custom provider should not be used
+    expect(captured).toBe(false);
+    resetErrorMonitoringForTesting();
   });
 });

@@ -1,6 +1,6 @@
 import { MOCK_PROPERTIES } from '../../data/mockProperties';
 import type { Property } from '../../types/models';
-import type { SearchFilters } from '../../screens/search/SearchScreen';
+import type { SearchFilters } from '../../types/search';
 import type { PaginatedResult, PaginationInput } from '../../types/pagination';
 import { filterProperties, getFeaturedProperties as getFeaturedFromStore, sortProperties } from '../../store/propertyStore';
 

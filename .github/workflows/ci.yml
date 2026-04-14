@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm run deps:install
+
+      - name: Verify (typecheck + tests)
+        run: npm run verify
+
+      - name: Generate progress report (json)
+        run: node ./scripts/report-progress.mjs --json > progress-report.json
+
+      - name: Check progress non-regression gate
+        run: npm run check:progress:gate
+
+      - name: Generate next tasks (json)
+        run: npm run next:tasks:json > next-tasks.json
+
+      - name: Generate readiness report (json)
+        run: npm run check:readiness:100:json > readiness-report.json
+
+      - name: Generate leadership markdown reports
+        run: |
+          npm run generate:status-report
+          npm run generate:director-report
+
+      - name: Upload progress report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: execution-reports
+          path: |
+            progress-report.json
+            next-tasks.json
+            readiness-report.json
+            docs/tinh-hinh-hien-tai.md
+            docs/bao-cao-tien-do-tu-dong.md

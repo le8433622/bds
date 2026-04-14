@@ -1,0 +1,35 @@
+{
+  "name": "homefinder-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deps:install": "bash ./scripts/install-deps.sh",
+    "check:provenance": "node ./scripts/check-provenance.mjs",
+    "check:progress:gate": "node ./scripts/check-progress-gate.mjs",
+    "check:readiness:100": "node ./scripts/check-readiness-100.mjs",
+    "check:readiness:100:report": "node ./scripts/check-readiness-100.mjs --report-only",
+    "check:readiness:100:json": "node ./scripts/check-readiness-100.mjs --json --report-only",
+    "complete:task": "node ./scripts/complete-task.mjs",
+    "complete:next": "node ./scripts/complete-next-tasks.mjs",
+    "cycle:light-speed": "node ./scripts/light-speed-cycle.mjs",
+    "generate:director-report": "node ./scripts/generate-director-report.mjs",
+    "generate:parallel-plan": "node ./scripts/generate-parallel-plan.mjs",
+    "generate:status-report": "node ./scripts/generate-status-report.mjs",
+    "next:tasks": "node ./scripts/next-tasks.mjs",
+    "next:tasks:json": "node ./scripts/next-tasks.mjs --json",
+    "report:progress": "node ./scripts/report-progress.mjs",
+    "report:progress:json": "node ./scripts/report-progress.mjs --json",
+    "report:progress:brief": "node ./scripts/report-progress.mjs --no-repeat",
+    "report:progress:record": "node ./scripts/report-progress.mjs --record",
+    "update:progress:baseline": "node ./scripts/update-progress-baseline.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "typecheck:test": "tsc --noEmit -p tsconfig.test.json",
+    "test": "bash ./scripts/run-tests.sh",
+    "verify": "npm run check:provenance && npm run typecheck && npm run typecheck:test && npm test"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

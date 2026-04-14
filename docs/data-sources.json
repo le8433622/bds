@@ -1,0 +1,15 @@
+{
+  "sources": [
+    {
+      "id": "mock_properties",
+      "source_name": "Internal Mock Seed Data",
+      "source_url": "internal://mock-properties",
+      "license_type": "internal",
+      "tos_clause": "internal-use-only",
+      "collected_at": "2026-04-12T00:00:00.000Z",
+      "owner": "product-engineering",
+      "confidence_score": 1,
+      "last_verified_at": "2026-04-14T00:00:00.000Z"
+    }
+  ]
+}

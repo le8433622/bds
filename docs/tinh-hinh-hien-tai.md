@@ -1,6 +1,6 @@
 # Báo cáo tình hình hiện tại
 
-**Thời điểm tạo (UTC):** 2026-04-14T13:04:53.623Z
+**Thời điểm tạo (UTC):** 2026-04-14T16:27:01.194Z
 
 ## Tổng quan
 - Tiến độ tổng: **100%**
@@ -8,6 +8,9 @@
 - Còn lại: **0 tasks (0%)**
 
 ## 3 việc ưu tiên kế tiếp
+1. [Lane E — UI Production Integration] E1. Chuẩn hóa design tokens production (typography, spacing, color, elevation) và khóa version.
+2. [Lane E — UI Production Integration] E2. Thay toàn bộ placeholder/screen shell bằng layout production cho 10 màn hình MVP.
+3. [Lane E — UI Production Integration] E3. Hoàn thiện trạng thái loading/empty/error/retry cho từng màn có dữ liệu từ API.
 
 ## Khi nào deploy được?
 - Mốc kế hoạch hiện tại: **11/05/2026** (go-live MVP nếu đạt go/no-go).

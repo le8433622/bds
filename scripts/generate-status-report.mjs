@@ -9,6 +9,12 @@ const iso = now.toISOString();
 
 const progress = JSON.parse(execSync('node ./scripts/report-progress.mjs --json', { encoding: 'utf8' }));
 const nextTasks = JSON.parse(execSync('node ./scripts/next-tasks.mjs --json --limit 3', { encoding: 'utf8' }));
+const goLiveNextTasks = JSON.parse(
+  execSync('node ./scripts/next-tasks.mjs --json --limit 3 --file docs/ui-production-go-live-plan.md', {
+    encoding: 'utf8',
+  }),
+);
+const priorities = nextTasks.tasks.length > 0 ? nextTasks.tasks : goLiveNextTasks.tasks;
 
 const lines = [
   '# Báo cáo tình hình hiện tại',
@@ -21,7 +27,7 @@ const lines = [
   `- Còn lại: **${progress.overall.remainingTasks} tasks (${progress.overall.remainingPercentToTarget}%)**`,
   '',
   '## 3 việc ưu tiên kế tiếp',
-  ...nextTasks.tasks.map((t, idx) => `${idx + 1}. [${t.section}] ${t.task}`),
+  ...priorities.map((t, idx) => `${idx + 1}. [${t.section}] ${t.task}`),
   '',
   '## Khi nào deploy được?',
   '- Mốc kế hoạch hiện tại: **11/05/2026** (go-live MVP nếu đạt go/no-go).',

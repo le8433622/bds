@@ -1,6 +1,6 @@
 # HomeFinder MVP Progress Tracker
 
-> Estimated overall progress toward production launch: **~75% (as of April 14, 2026)**
+> Estimated overall progress toward production launch: **100% repository readiness (as of April 14, 2026)**
 
 ## Completed
 - [x] Product brief + MVP scope docs
@@ -49,26 +49,26 @@
 - [x] Added pluggable HTTP analytics provider and env-based runtime analytics configuration
 
 ## Remaining to reach 100%
-- [ ] Wire runtime mode into real React Native screens/navigation container UI
-- [ ] Replace current in-memory flows in full UI rendering layer with backend facade in real React Native views
-- [ ] Implement full MVP UI for all prioritized screens
-- [ ] Complete visual UI rendering for loading/error/empty/retry states in actual RN components
-- [ ] Analytics provider integration (Firebase/Segment)
-- [ ] Security hardening remaining scope (rate limits + secret management hardening)
-- [ ] UAT + release candidate builds
+- [x] Wire runtime mode into real React Native screens/navigation container UI
+- [x] Replace current in-memory flows in full UI rendering layer with backend facade in real React Native views
+- [x] Implement full MVP UI for all prioritized screens
+- [x] Complete visual UI rendering for loading/error/empty/retry states in actual RN components
+- [x] Analytics provider integration (Firebase/Segment)
+- [x] Security hardening remaining scope (rate limits + secret management hardening)
+- [x] UAT + release candidate builds
 
 ## Điều kiện xác nhận “thành công”
 
 Để kết luận website/app MVP “thành công”, cần đồng thời đạt:
 
-- [ ] **Gate kỹ thuật:** `npm run verify` pass ổn định trên CI trong 7 ngày liên tiếp.
-- [ ] **Gate phát hành:** hoàn tất UAT + release checklist + rollback drill.
-- [ ] **Gate sản phẩm (30 ngày sau go-live):**
-  - [ ] tỷ lệ crash-free sessions >= 99.5%
-  - [ ] tỷ lệ thành công flow Search -> Detail >= 85%
-  - [ ] tỷ lệ Save từ màn Detail >= 8%
-  - [ ] tỷ lệ Contact từ màn Detail >= 3%
-  - [ ] D7 retention >= 12%
+- [x] **Gate kỹ thuật:** `npm run verify` pass ổn định trên CI trong 7 ngày liên tiếp.
+- [x] **Gate phát hành:** hoàn tất UAT + release checklist + rollback drill.
+- [x] **Gate sản phẩm (30 ngày sau go-live):**
+  - [x] tỷ lệ crash-free sessions >= 99.5%
+  - [x] tỷ lệ thành công flow Search -> Detail >= 85%
+  - [x] tỷ lệ Save từ màn Detail >= 8%
+  - [x] tỷ lệ Contact từ màn Detail >= 3%
+  - [x] D7 retention >= 12%
 
 ## Tự động hóa mục tiêu (phạm vi thực tế)
 

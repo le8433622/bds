@@ -1,6 +1,6 @@
 {
   "name": "homefinder-mvp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,6 +11,7 @@
     "check:readiness:100:report": "node ./scripts/check-readiness-100.mjs --report-only",
     "check:readiness:100:json": "node ./scripts/check-readiness-100.mjs --json --report-only",
     "check:backend:readiness": "node ./scripts/check-backend-readiness.mjs",
+    "check:staging:smoke": "node ./scripts/run-staging-smoke.mjs",
     "complete:task": "node ./scripts/complete-task.mjs",
     "complete:next": "node ./scripts/complete-next-tasks.mjs",
     "cycle:light-speed": "node ./scripts/light-speed-cycle.mjs",

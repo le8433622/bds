@@ -52,7 +52,7 @@ Chỉ chốt 100% khi đồng thời đạt:
 - [x] B3. Áp dụng retry policy theo endpoint criticality.
 - [x] B4. Health endpoint + readiness check cho deploy gate.
 - [x] B5. Idempotency cho action save/contact để tránh double-submit.
-- [ ] B6. Test integration với backend staging.
+- [x] B6. Test integration với backend staging.
 
 ## Lane C — Security, compliance, legal (6 ngày)
 

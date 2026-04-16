@@ -1,0 +1,39 @@
+name: Incident Report
+description: Capture production/staging incident with clear triage data.
+title: "[INCIDENT] "
+labels: ["incident"]
+body:
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Sev-1
+        - Sev-2
+        - Sev-3
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: User impact
+      description: What users are affected and how?
+    validations:
+      required: true
+
+  - type: textarea
+    id: timeline
+    attributes:
+      label: Timeline
+      description: Start time, detection time, mitigation time, current status.
+    validations:
+      required: true
+
+  - type: textarea
+    id: runbook
+    attributes:
+      label: Runbook links / dashboards
+      description: Include links to logs, dashboard, runbook, and PR if any.
+    validations:
+      required: true

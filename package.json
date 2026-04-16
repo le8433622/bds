@@ -33,7 +33,8 @@
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "typecheck:test": "tsc --noEmit -p tsconfig.test.json",
     "test": "bash ./scripts/run-tests.sh",
-    "verify": "npm run check:provenance && npm run typecheck && npm run typecheck:test && npm test"
+    "verify": "npm run check:provenance && npm run typecheck && npm run typecheck:test && npm test",
+    "ops:health": "bash ./scripts/sandbox-health-check.sh"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

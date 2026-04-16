@@ -1,13 +1,21 @@
-name: CI
+name: CI Gate
 
 on:
   push:
-    branches: ["**"]
+    branches: ['**']
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  test:
+  quality-gate:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,8 +29,11 @@ jobs:
       - name: Install deps
         run: npm run deps:install
 
-      - name: Verify (typecheck + tests)
+      - name: Verify (provenance + typecheck + tests)
         run: npm run verify
+
+      - name: App smoke gate
+        run: npm run app:smoke
 
       - name: Generate progress report (json)
         run: node ./scripts/report-progress.mjs --json > progress-report.json
@@ -36,12 +47,18 @@ jobs:
       - name: Generate readiness report (json)
         run: npm run check:readiness:100:json > readiness-report.json
 
+      - name: Run KPI alert check
+        run: npm run check:kpi-alerts
+
+      - name: Generate funnel dashboard
+        run: npm run generate:funnel-dashboard
+
       - name: Generate leadership markdown reports
         run: |
           npm run generate:status-report
           npm run generate:director-report
 
-      - name: Upload progress report artifact
+      - name: Upload execution artifacts
         uses: actions/upload-artifact@v4
         with:
           name: execution-reports
@@ -49,5 +66,6 @@ jobs:
             progress-report.json
             next-tasks.json
             readiness-report.json
+            docs/funnel-dashboard.md
             docs/tinh-hinh-hien-tai.md
             docs/bao-cao-tien-do-tu-dong.md

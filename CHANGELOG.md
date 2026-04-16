@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- Sandbox ops health check script (`npm run ops:health`) for quick runtime diagnostics (git status, runtime versions, process list, listening ports with fallback, and core script presence checks).
+- Nightly ops workflow and GitHub issue/PR governance templates for incident/feature intake and standardized PR validation.
+
+### Changed
+- CI gate strengthened with app smoke checks, KPI/funnel generation, and expanded execution artifacts.
+
 ## 1.0.0 - 2026-04-14
 
 ### Added

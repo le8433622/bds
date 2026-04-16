@@ -1,0 +1,45 @@
+name: Nightly Ops Reports
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nightly-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm run deps:install
+
+      - name: Generate nightly status artifacts
+        run: |
+          npm run generate:status-report
+          npm run generate:director-report
+          npm run report:progress:json > progress-report.json
+          npm run next:tasks:json > next-tasks.json
+          npm run check:readiness:100:json > readiness-report.json
+
+      - name: Upload nightly artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-execution-reports
+          path: |
+            progress-report.json
+            next-tasks.json
+            readiness-report.json
+            docs/tinh-hinh-hien-tai.md
+            docs/bao-cao-tien-do-tu-dong.md

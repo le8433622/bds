@@ -7,6 +7,14 @@ export type LoginFailureReason =
   | 'NETWORK_ERROR'
   | 'UNKNOWN';
 
+export type LoginState = {
+  status: 'idle' | 'submitting' | 'success' | 'error';
+  email: string;
+  password: string;
+  validationErrors: string[];
+  errorMessage: string | null;
+};
+
 export function validateLoginForm(email: string, password: string): string[] {
   const errors: string[] = [];
 
@@ -35,4 +43,90 @@ export function getLoginFailureMessage(reason: LoginFailureReason): string {
     default:
       return 'Đăng nhập thất bại. Vui lòng thử lại.';
   }
+}
+
+function toLoginFailureReason(error: unknown): LoginFailureReason {
+  if (error && typeof error === 'object' && 'reason' in error) {
+    const reason = (error as { reason?: unknown }).reason;
+    if (reason === 'INVALID_CREDENTIALS' || reason === 'ACCOUNT_LOCKED' || reason === 'TOKEN_EXPIRED' || reason === 'NETWORK_ERROR') {
+      return reason;
+    }
+  }
+
+  return 'UNKNOWN';
+}
+
+export function createInitialLoginState(): LoginState {
+  return {
+    status: 'idle',
+    email: '',
+    password: '',
+    validationErrors: [],
+    errorMessage: null,
+  };
+}
+
+export function createLoginScreenController(input: {
+  login: (email: string, password: string) => Promise<void>;
+}) {
+  let state = createInitialLoginState();
+
+  return {
+    getState(): LoginState {
+      return {
+        ...state,
+        validationErrors: [...state.validationErrors],
+      };
+    },
+
+    updateForm(email: string, password: string): LoginState {
+      state = {
+        ...state,
+        email,
+        password,
+        validationErrors: [],
+        errorMessage: null,
+      };
+
+      return this.getState();
+    },
+
+    async submit(): Promise<LoginState> {
+      const validationErrors = validateLoginForm(state.email, state.password);
+      if (validationErrors.length > 0) {
+        state = {
+          ...state,
+          status: 'error',
+          validationErrors,
+        };
+
+        return this.getState();
+      }
+
+      state = {
+        ...state,
+        status: 'submitting',
+        validationErrors: [],
+        errorMessage: null,
+      };
+
+      try {
+        await input.login(state.email, state.password);
+        state = {
+          ...state,
+          status: 'success',
+        };
+
+        return this.getState();
+      } catch (error) {
+        state = {
+          ...state,
+          status: 'error',
+          errorMessage: getLoginFailureMessage(toLoginFailureReason(error)),
+        };
+
+        return this.getState();
+      }
+    },
+  };
 }

@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { validateRegisterForm } from './RegisterScreen';
+import {
+  createRegisterScreenController,
+  validateRegisterForm,
+} from './RegisterScreen';
 
 describe('validateRegisterForm', () => {
   it('returns multiple validation errors', () => {
@@ -25,5 +28,40 @@ describe('validateRegisterForm', () => {
     });
 
     expect(errors).toEqual([]);
+  });
+
+  it('submits register with controller', async () => {
+    const controller = createRegisterScreenController({
+      register: async () => undefined,
+    });
+
+    controller.updateForm({
+      fullName: 'Nguyen Van A',
+      password: '123456',
+      confirmPassword: '123456',
+      acceptedTerms: true,
+    });
+
+    const state = await controller.submit();
+    expect(state.status).toBe('success');
+  });
+
+  it('returns error when register API fails', async () => {
+    const controller = createRegisterScreenController({
+      register: async () => {
+        throw new Error('email existed');
+      },
+    });
+
+    controller.updateForm({
+      fullName: 'Nguyen Van A',
+      password: '123456',
+      confirmPassword: '123456',
+      acceptedTerms: true,
+    });
+
+    const state = await controller.submit();
+    expect(state.status).toBe('error');
+    expect(state.errorMessage).toContain('email existed');
   });
 });

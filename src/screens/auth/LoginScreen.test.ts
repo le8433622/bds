@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { getLoginFailureMessage, validateLoginForm } from './LoginScreen';
+import {
+  createLoginScreenController,
+  getLoginFailureMessage,
+  validateLoginForm,
+} from './LoginScreen';
 
 describe('validateLoginForm', () => {
   it('returns errors for invalid input', () => {
@@ -17,5 +21,28 @@ describe('validateLoginForm', () => {
     expect(getLoginFailureMessage('INVALID_CREDENTIALS')).toContain('không đúng');
     expect(getLoginFailureMessage('TOKEN_EXPIRED')).toContain('hết hạn');
     expect(getLoginFailureMessage('NETWORK_ERROR')).toContain('kết nối');
+  });
+
+  it('submits login successfully with controller', async () => {
+    const controller = createLoginScreenController({
+      login: async () => undefined,
+    });
+
+    controller.updateForm('hello@example.com', '123456');
+    const state = await controller.submit();
+    expect(state.status).toBe('success');
+  });
+
+  it('maps login failure reason to user message', async () => {
+    const controller = createLoginScreenController({
+      login: async () => {
+        throw { reason: 'ACCOUNT_LOCKED' };
+      },
+    });
+
+    controller.updateForm('hello@example.com', '123456');
+    const state = await controller.submit();
+    expect(state.status).toBe('error');
+    expect(state.errorMessage).toContain('tạm khóa');
   });
 });
